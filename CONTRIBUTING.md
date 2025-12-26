@@ -14,6 +14,7 @@ Thanks for being willing to contribute to **Reed Backend**.
 
 - **JDK 17+** (recommended: Temurin 17)
 - **Gradle** (optional; the project includes the wrapper `./gradlew`)
+- **PostgreSQL** (see database setup below)
 
 ## Project layout
 
@@ -25,23 +26,49 @@ Thanks for being willing to contribute to **Reed Backend**.
 ## Setup (local)
 
 1. **Clone** the repo.
-2. **Configure environment** (if needed).
 
-   The repo includes `local.properties` / `application.yaml` for configuration. Avoid committing secrets.
+2. **Set up PostgreSQL database**:
 
-3. **Build and test**:
+   The easiest way is using Docker:
+
+   ```bash
+   docker run --name reed-postgres \
+     -e POSTGRES_DB=reed \
+     -e POSTGRES_USER=postgres \
+     -e POSTGRES_PASSWORD=postgres \
+     -p 5432:5432 \
+     -d postgres:16-alpine
+   ```
+
+   Alternatively:
+   - Install PostgreSQL via Homebrew: `brew install postgresql@16`
+   - Or use [Postgres.app](https://postgresapp.com/) (Mac GUI)
+   - Or use a cloud PostgreSQL instance
+
+3. **Configure environment**:
+
+   The project uses `.env` file for configuration. Default settings:
+   - Database: `reed`
+   - User: `postgres`
+   - Password: `postgres`
+   - Port: `5432`
+
+   Update `.env` file if using different credentials. Avoid committing secrets.
+
+4. **Build and test**:
 
    ```bash
    ./gradlew test
    ```
 
-4. **Run the server**:
+5. **Run the server**:
 
    ```bash
    ./gradlew run
    ```
 
    By default it should start on `http://localhost:8080`.
+   Tables will be created automatically on first run.
 
 ## API docs
 

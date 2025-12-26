@@ -13,20 +13,19 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class DatabaseConfig {
     fun init() {
         val config = HikariConfig().apply {
-            driverClassName = "com.mysql.cj.jdbc.Driver"
+            driverClassName = "org.postgresql.Driver"
             jdbcUrl =
-                "jdbc:mysql://${AppConfig.DB_HOST}:${AppConfig.DB_PORT}/${AppConfig.DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
+                "jdbc:postgresql://${AppConfig.DB_HOST}:${AppConfig.DB_PORT}/${AppConfig.DB_NAME}"
             username = AppConfig.DB_USER
             password = AppConfig.DB_PASSWORD
             maximumPoolSize = 3
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
-            // MySQL specific settings
+            // PostgreSQL specific settings
             addDataSourceProperty("cachePrepStmts", "true")
             addDataSourceProperty("prepStmtCacheSize", "250")
             addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
-            addDataSourceProperty("useServerPrepStmts", "true")
         }
 
         val dataSource = HikariDataSource(config)
