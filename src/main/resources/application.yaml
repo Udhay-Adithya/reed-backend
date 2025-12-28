@@ -4,3 +4,8 @@ ktor:
             - com.reed.ApplicationKt.module
     deployment:
         port: 8080
+
+service:
+    name: reed-backend
+    version: 0.0.1
+    environment: development
