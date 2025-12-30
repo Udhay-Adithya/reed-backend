@@ -33,7 +33,18 @@ fun Route.authRoutes(userRepository: UserRepository, jwtConfig: JwtConfig) {
             )
 
             val token = jwtConfig.makeToken(user.id, user.email)
-            call.respond(HttpStatusCode.Created, AuthResponse(token, user))
+            call.respond(
+                HttpStatusCode.Created, AuthResponse(
+                    token, UserResponse(
+                        id = user.id,
+                        email = user.email,
+                        name = user.name,
+                        profilePicture = user.profilePicture,
+                        createdAt = user.createdAt,
+                        updatedAt = user.updatedAt
+                    )
+                )
+            )
         }
 
         post("/login") {
